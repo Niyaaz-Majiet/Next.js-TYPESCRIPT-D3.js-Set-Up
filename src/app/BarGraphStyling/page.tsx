@@ -95,7 +95,7 @@ export default function BarGraphStyling() {
       .attr("height", 0)
       .remove();
 
-      rect.transition().duration(300)
+      rect.transition().duration(300).delay(100)
         .attr("width", x.bandwidth)
         .attr("height", (d) => dimensions.height - y(d.units)!)
         .attr("x", (d) => x(d.name)!)
