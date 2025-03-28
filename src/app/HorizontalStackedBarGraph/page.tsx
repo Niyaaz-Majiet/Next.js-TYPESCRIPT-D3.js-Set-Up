@@ -45,22 +45,17 @@ type BarplotProps = {
 };
 
 const Barplot = ({ width = 500, height = 500, data = dataSet }: BarplotProps) => {
-  // bounds = area inside the graph axis = calculated by substracting the margins
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
   const groups = [...new Set(data.map((d) => d.group)!)];
   const subGroups = [...new Set(data.map((d) => d.subgroup)!)];
-
-  // Reformat the dataset
   const stackGenerator = d3
     .stack<string>()
     .keys(subGroups)
     .value((d) => data.filter((item) => item.group === d)[0].value);
   const series = stackGenerator(groups);
 
-  // Find size of the longest bar and group rank.
-  // Values are available in the last group of the stack
   const lastStackGroup = series[series.length - 1] || [];
   const groupTotalValues = lastStackGroup.map((group) => {
     const biggest = group[group.length - 1] || 0;
@@ -71,16 +66,13 @@ const Barplot = ({ width = 500, height = 500, data = dataSet }: BarplotProps) =>
   );
   const maxValue = sortedGroupTotalValues[0].value;
 
-  // Y axis is for groups since the barplot is horizontal
   const yScale = scaleBand()
   .domain(groupTotalValues.map((g) => g.name))
   .range([0, boundsHeight])
   .padding(BAR_PADDING);
 
-  // X axis
   const xScale = scaleLinear().domain([0, maxValue]).range([0, boundsWidth]);
 
-  // Color Scale
   var colorScale = scaleOrdinal<string>().domain(subGroups).range(COLORS);
 
   const rectangles = series.map((subgroup, i) => {
