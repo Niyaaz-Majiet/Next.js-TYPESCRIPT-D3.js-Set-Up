@@ -1,7 +1,7 @@
 'use client';
 
 import * as d3 from "d3";
-import { scaleBand, scaleLinear } from "d3";
+import { scaleBand, scaleLinear, scaleOrdinal } from "d3";
 import styles from "../page.module.css";
 
 const MARGIN = { top: 0, right: 30, bottom: 30, left: 30 };
@@ -81,7 +81,7 @@ const Barplot = ({ width = 500, height = 500, data = dataSet }: BarplotProps) =>
   const xScale = scaleLinear().domain([0, maxValue]).range([0, boundsWidth]);
 
   // Color Scale
-  var colorScale = d3.scaleOrdinal<string>().domain(subGroups).range(COLORS);
+  var colorScale = scaleOrdinal<string>().domain(subGroups).range(COLORS);
 
   const rectangles = series.map((subgroup, i) => {
     return (
