@@ -160,7 +160,7 @@ const [data, setData] = useState(dataSet);
 
   return (
     <div className={styles.page}>
-      <h1>Stacked Bar Graph v2</h1>
+      <h1>Vertical Stacked Bar Graph v2</h1>
       <svg ref={svgRef} width={width} height={height} />
     </div>
   );
